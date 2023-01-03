@@ -4543,6 +4543,7 @@ __metadata:
     react-query: ^3.39.2
     typescript: ^4.9.4
     vite: ^4.0.0
+    wouter: ^2.9.0
   languageName: unknown
   linkType: soft
 
@@ -4583,6 +4584,15 @@ __metadata:
   version: 1.2.3
   resolution: "word-wrap@npm:1.2.3"
   checksum: 30b48f91fcf12106ed3186ae4fa86a6a1842416df425be7b60485de14bec665a54a68e4b5156647dec3a70f25e84d270ca8bc8cd23182ed095f5c7206a938c1f
+  languageName: node
+  linkType: hard
+
+"wouter@npm:^2.9.0":
+  version: 2.9.0
+  resolution: "wouter@npm:2.9.0"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 3f437930bae99178ab185268514b85dead693eceb860c62e7b6e0c3bb62d23c060afbbe5b5f26380c59be64d40cae5d5493b08c45e5593bdc3b259e6aa07174a
   languageName: node
   linkType: hard
 
