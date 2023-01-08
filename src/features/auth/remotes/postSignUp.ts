@@ -8,7 +8,12 @@ async function postSignUp(email: string, password: string) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
-  });
+  })
+    .then((res) => (res.ok ? res : Promise.reject(res)))
+    .then((res) => res.json())
+    .catch((err) => {
+      throw Error(err);
+    });
 }
 
 export default postSignUp;

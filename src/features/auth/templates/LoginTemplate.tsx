@@ -1,46 +1,78 @@
-import { useLocation } from "wouter";
-import useAuth from "../hooks/useAuth";
+import React, { useState } from 'react';
+import { useLocation } from 'wouter';
+import { Input, InputProps } from '../../common/components/Input';
+import useAuth from '../hooks/useAuth';
 
-function LoginTemplate() {
+export const LoginTemplate = () => {
   const { login } = useAuth();
-  const [_, setLoation] = useLocation();
+  const [_, setLocation] = useLocation();
+  const [formState, setFormState] = useState<{ [index: string]: string }>({
+    email: '',
+    password: '',
+  });
 
-  //todo form 태그 사용하지 말고 state 관리하기
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  // todo try catch 개선
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     const formJson = Object.fromEntries(formData.entries());
-    login(formJson.email as string, formJson.password as string);
-  }
 
-  function handleClick() {
-    setLoation("/signup");
-  }
+    try {
+      const response = await login(formJson.email as string, formJson.password as string);
+      if (response) setLocation('/');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleChange: InputProps['onChange'] = function (e) {
+    const target = e.target;
+    setFormState((prevState) => ({ ...prevState, [target.name]: target.value }));
+  };
+
+  const handleClick = () => {
+    setLocation('/signup');
+  };
 
   return (
-    <div>
-      <form method="post" onSubmit={handleSubmit}>
-        <label>
-          ID
-          <input
-            name="email"
-            required
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-          />
-        </label>
-        <label>
-          PW
-          <input type="password" name="password" required minLength={8} />
-        </label>
-        <button type="submit">로그인</button>
-        <button type="button" onClick={handleClick}>
-          회원가입
-        </button>
-      </form>
-    </div>
+    <form
+      className="flex h-screen w-full flex-col justify-center space-y-6"
+      onSubmit={handleSubmit}
+    >
+      <Input
+        label="Email"
+        name="email"
+        type="email"
+        required
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+        placeholder="test@test.com"
+        value={formState.email}
+        onChange={handleChange}
+      />
+      <Input
+        label="Password"
+        name="password"
+        type="password"
+        required
+        minLength={8}
+        value={formState.password}
+        onChange={handleChange}
+      />
+      <button
+        type="submit"
+        className="rounded-md bg-sky-500 px-5 py-2.5 text-sm font-semibold leading-5 text-white hover:bg-sky-700 disabled:bg-sky-300"
+      >
+        로그인
+      </button>
+      <button
+        type="button"
+        onClick={handleClick}
+        className="rounded-md bg-white px-5 py-2.5 text-sm font-semibold leading-5 text-sky-500 hover:bg-sky-200"
+      >
+        회원가입
+      </button>
+    </form>
   );
-}
-
-export default LoginTemplate;
+};
