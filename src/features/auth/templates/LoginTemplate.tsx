@@ -34,7 +34,7 @@ export const LoginTemplate = () => {
 
   return (
     <form
-      className="flex h-screen w-full flex-col justify-center space-y-6"
+      className="mx-auto flex h-screen max-w-sm flex-col justify-center space-y-6"
       onSubmit={handleSubmit}
     >
       <Input

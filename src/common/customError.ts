@@ -9,3 +9,10 @@ export class ApiError extends Error {
     this.statusText = statusText;
   }
 }
+
+export class AuthError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'AuthError';
+  }
+}
