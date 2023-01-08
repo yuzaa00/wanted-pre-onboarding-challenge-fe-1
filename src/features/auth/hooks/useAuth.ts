@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
-import { apiAuth } from '../../common/api';
-import { ApiError } from '../../common/customError';
-import getToken from '../../common/getToken';
+import { apiAuth } from '../../../common/api';
+import { ApiError } from '../../../common/customError';
+import getToken from '../../../common/getToken';
 
 function useAuth() {
   const [isAuth, setAuth] = useState(!!getToken());

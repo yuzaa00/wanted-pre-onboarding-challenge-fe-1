@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
-import { Input, InputProps } from '../../common/components/Input';
+import { Input, InputProps } from '../../../common/components/Input';
 import useAuth from '../hooks/useAuth';
 
 function SignUpTemplate() {
