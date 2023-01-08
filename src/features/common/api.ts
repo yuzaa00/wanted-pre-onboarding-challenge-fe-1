@@ -1,24 +1,19 @@
-import { config } from "./config";
+import { config } from './config';
+import { ApiError } from './customError';
 
-interface ApiArg {
-  method: "GET" | "POST";
-  token: string;
-  url: string;
-  parameter: any;
-}
-
-export async function apiAuth({ url }: Pick<ApiArg, "url">) {
-  return await fetch(new URL(url, config.BASE_URL).toString(), {
-    method: "POST",
-  });
-}
-
-export async function api({ method, token, url, parameter }: ApiArg) {
-  return await fetch(new URL(url, config.BASE_URL).toString(), {
-    method,
+export const apiAuth = async (url = '', data = {}) => {
+  return fetch(new URL(url, config.BASE_URL), {
+    method: 'POST',
     headers: {
-      Authorization: token,
+      'Content-Type': 'application/json',
     },
-    body: { ...parameter },
-  });
-}
+    body: JSON.stringify(data),
+  })
+    .then((res) => (res.ok ? res : Promise.reject(res)))
+    .then((res) => res.json())
+    .catch(async (err) => {
+      const jsonError = await err.json();
+
+      throw new ApiError(jsonError.details, err.status, err.statusText);
+    });
+};

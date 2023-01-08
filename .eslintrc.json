@@ -21,13 +21,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": [
-    "react",
-    "@typescript-eslint",
-    "react-hooks",
-    "jsx-a11y",
-    "import"
-  ],
+  "plugins": ["react", "@typescript-eslint", "react-hooks", "jsx-a11y", "import"],
   "settings": {
     "import/resolver": {
       "typescript": {
@@ -39,6 +33,24 @@
     }
   },
   "rules": {
-    "import/no-unresolved": "error"
+    "import/no-unresolved": "error",
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "order": "asc"
+        },
+        "groups": [
+          "internal",
+          "external",
+          "index",
+          "sibling",
+          "parent",
+          "builtin",
+          "object",
+          "type"
+        ]
+      }
+    ]
   }
 }

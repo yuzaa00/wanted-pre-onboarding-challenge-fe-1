@@ -5,13 +5,12 @@ import useAuth from '../hooks/useAuth';
 
 function SignUpTemplate() {
   const { signup } = useAuth();
-  const [_, setLocation] = useLocation();
+  const setLocation = useLocation()[1];
   const [formState, setFormState] = useState<{ [index: string]: string }>({
     email: '',
     password: '',
   });
 
-  // todo form 태그 말고 state로 관리하기
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 

@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
+import { apiAuth } from '../../common/api';
+import { ApiError } from '../../common/customError';
 import getToken from '../../common/getToken';
-import postLogin from '../remotes/postLogin';
-import postSignUp from '../remotes/postSignUp';
 
-// todo try catch 개선 필요
 function useAuth() {
   const [isAuth, setAuth] = useState(!!getToken());
   const [location, setLocation] = useLocation();
 
   async function login(email: string, password: string) {
     try {
-      const response = await postLogin(email, password);
+      const response = await apiAuth('/users/login', { email, password });
 
       if (response) {
         localStorage.setItem('token', response.token);
@@ -19,19 +18,26 @@ function useAuth() {
         return response.message;
       }
     } catch (err) {
-      return err;
+      if (err instanceof ApiError) {
+        alert(err.message);
+      }
+      // todo 에러바운더리로 잡아줘야함
+      throw err;
     }
   }
 
   async function signup(email: string, password: string) {
     try {
-      const response = await postSignUp(email, password);
+      const response = await apiAuth('/users/create', { email, password });
 
       if (response) {
         return response.message;
       }
     } catch (err) {
-      // throw Error(err);
+      if (err instanceof ApiError) {
+        alert(err.message);
+      }
+      throw err;
     }
   }
 

@@ -5,13 +5,12 @@ import useAuth from '../hooks/useAuth';
 
 export const LoginTemplate = () => {
   const { login } = useAuth();
-  const [_, setLocation] = useLocation();
+  const setLocation = useLocation()[1];
   const [formState, setFormState] = useState<{ [index: string]: string }>({
     email: '',
     password: '',
   });
 
-  // todo try catch 개선
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -19,12 +18,9 @@ export const LoginTemplate = () => {
     const formData = new FormData(form);
     const formJson = Object.fromEntries(formData.entries());
 
-    try {
-      const response = await login(formJson.email as string, formJson.password as string);
-      if (response) setLocation('/');
-    } catch (err) {
-      console.log(err);
-    }
+    const response = await login(formJson.email as string, formJson.password as string);
+
+    if (response) setLocation('/');
   };
 
   const handleChange: InputProps['onChange'] = function (e) {
